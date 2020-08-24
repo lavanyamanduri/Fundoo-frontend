@@ -1,3 +1,4 @@
+import React from 'react';
 import  { Component } from "react";
 import Controller from "../Controller/UserController";
 
@@ -16,11 +17,13 @@ class VerifyEmail extends Component {
     this.verificationMethod();
   }
 
+  
   verificationMethod = () => {
     Controller.verification(this.state.jwt).then((res) => {
+      alert(this.state.jwt);
       console.log("verify...", res);
       if (res.status === 200) {
-        alert("Email has been verified");
+         alert("Email has been verified");
         this.props.history.push("/login");
         localStorage.removeItem("registerToken");
         this.setState({
@@ -31,14 +34,18 @@ class VerifyEmail extends Component {
       // else {
       //   this.setState({
       //     error: true,
-      //     message: 'Please Reregister'
+      //     message: 'Please Register'
       //   })
       // }
     });
   };
 
   render() {
-    return null;
+    return (
+      <div>
+        <p >{this.state.jwt} </p>
+      </div>
+    );
   }
 }
 

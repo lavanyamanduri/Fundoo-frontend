@@ -1,36 +1,49 @@
-import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import LinearProgress from '@material-ui/core/LinearProgress';
+// import React from 'react';
+// import Button from '@material-ui/core/Button';
+// import Snackbar from '@material-ui/core/Snackbar';
+// import IconButton from '@material-ui/core/IconButton';
+// import CloseIcon from '@material-ui/icons/Close';
 
-const useStyles = makeStyles({
-  root: {
-    width: '50%',
-  },
-});
+//  function Demo() {
+//   const [open, setOpen] = React.useState(false);
 
-export default function LinearDeterminate() {
-  const classes = useStyles();
-  const [progress, setProgress] = React.useState(0);
+//   const handleClick = () => {
+//     setOpen(true);
+//   };
 
-  React.useEffect(() => {
-    const timer = setInterval(() => {
-      setProgress((oldProgress) => {
-        if (oldProgress === 100) {
-          return 0;
-        }
-        const diff = Math.random() * 10;
-        return Math.min(oldProgress + diff, 100);
-      });
-    }, 500);
+//   const handleClose = (event, reason) => {
+//     if (reason === 'clickaway') {
+//       return;
+//     }
 
-    return () => {
-      clearInterval(timer);
-    };
-  }, []);
+//     setOpen(false);
+//   };
 
-  return (
-    <div className={classes.root}>
-      <LinearProgress variant="determinate" value={progress} />
-    </div>
-  );
-}
+//   return (
+//     <div>
+//       <Button onClick={handleClick}> snackbar</Button>
+//       <Snackbar
+//         anchorOrigin={{
+//           vertical: 'bottom',
+//           horizontal: 'center',
+//         }}
+//         open={open}
+//         autoHideDuration={6000}
+//         onClose={handleClose}
+//         message="Note archived"
+//         action={
+//           <React.Fragment>
+//             <Button color="secondary" size="small" onClick={handleClose}>
+//               UNDO
+//             </Button>
+//             <IconButton size="small" aria-label="close" color="inherit" onClick={handleClose}>
+//               <CloseIcon fontSize="small" />
+//             </IconButton>
+//           </React.Fragment>
+//         }
+//       />
+//     </div>
+//   );
+// }
+
+// export default Demo;

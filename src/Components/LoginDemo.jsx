@@ -4,7 +4,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import Box from '@material-ui/core/Box';
 import TextField from '@material-ui/core/TextField';
 import { Button } from '@material-ui/core';
-import { Link } from 'react-router-dom';
 import Controller from "../Controller/UserController";
 
 
@@ -43,7 +42,8 @@ class LoginDemo extends Component {
          error1: false,
          error2: false,
          error: false,
-         message: ""
+         message: "",
+         loginAuthentication: false
         };
       }
       
@@ -81,13 +81,16 @@ class LoginDemo extends Component {
        };
        helperpasswordMethod = () => {
          if (this.state.error2) {
-           return "enter between 7 to 20 characters ";
+           return "enter between 8 to 20 characters ";
+         }
+         else{
+           return "";
          }
        };
     
 
        create = () => {
-        this.props.history.push("/registerdemo");
+        this.props.history.push("/register");
       };
 
       onSubmit = () => {
@@ -98,25 +101,31 @@ class LoginDemo extends Component {
         console.log(loginDetails);
         Controller.login(loginDetails).then(res => {
           console.log("login...", res);
-          if (res.status === 200) {
+           if (res.status === 200)
+          {
             console.log("login....");
+
             let token = res.data.object;
             console.log(token, "hello");
             localStorage.setItem("logintoken", token);
             localStorage.setItem("owner", this.state.email);
-            this.props.history.push("/dashboard/" + token);
+            this.props.history.push("/dashboard");
             this.setState({
               error: true,
               message: "Login success"
             });
           }
-          // else {
-          //   this.setState({
-          //     error: true,
-          //     message: 'Please Reregister'
-          //   })
-          // }
-        });
+          else {
+            this.setState({
+              error: true,
+              
+              message: 'Please Register'
+            })
+          }
+        }).catch((err) =>{
+          console.log("error", err.res);
+          this.setState({ error: true,message: 'Invalid credentials' })
+        })
       };
 
     render() {
@@ -127,12 +136,15 @@ class LoginDemo extends Component {
               <div><span className= "flex-container" style={{display: "flex",flex:1,
               justifyContent: "center"}}>
            
-            <Box  position="relative" variant="outlined"  borderColor="grey.500" {...defaultProps} >
+            <Box   style={{overflow:"hidden"}}variant="outlined"  borderColor="grey.500" {...defaultProps} >
 
                 <h1 > Fundoo Notes</h1>
                     <p>Sign in</p>
                     <h4>to continue to fundoo</h4>
                    
+          { 
+            this.state.error  ? <div  id="error" style={{color:"red"}}>Email or Password is incorrect </div> : null
+          }
                     <div>
                     <TextField 
                         position="absolute"
@@ -143,7 +155,7 @@ class LoginDemo extends Component {
                         value={this.state.email}
                         onChange={this.onchangeEmail}
                         helperText={this.helpermailMethod()}
-                        style={{marginTop:"10%", width:"65%",justifyContent:"space-between"}}
+                        style={{marginTop:"10%", width:"65%",justifyContent:"space-between",flexWrap: "wrap"}}
                     />
                    
                     <TextField 
@@ -157,14 +169,23 @@ class LoginDemo extends Component {
                         onChange={this.onchangePassword}
                        className={classes.paper}
                         helperText={this.helperpasswordMethod()}
-                        style={{marginTop:"5%", width:"65%"}}
+                        style={{marginTop:"5%", width:"65%",flexWrap: "wrap"}}
                     /></div>
-                <div><br/><Box><  br/><div>
-            < Link to = '/registerdemo'  style={{marginLeft:"40%",marginTop:"40px"}}><a  onClick={this.create}>Create Account</a></Link>
+
+          
+
+
+                <div><br/><Box><  br/>
+                
+                
+                <div>
+
+
+           < a href ="http://localhost:3000/register"  style={{marginLeft:"5%",flexWrap: "wrap",marginTop:"40px"}}>Create Account</a>
               
               <Button 
-                    position="absolute"
-                    style={{marginLeft:"20%",marginTop:'4%', }} 
+                   
+                    style={{marginLeft:"20%",marginTop:'2%', flexWrap: "wrap"}} 
                     variant="outlined"
                     size="large"
                     color="default"
@@ -173,6 +194,7 @@ class LoginDemo extends Component {
                 >
                   Login
                 </Button>
+         
                 </div>
                 </Box>
                 </div>
